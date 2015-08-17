@@ -1,6 +1,6 @@
 {
   "name": "env-validator",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Validates node version and environment variables required for app",
   "main": "index.js",
   "scripts": {
