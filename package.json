@@ -4,7 +4,9 @@
   "description": "Validates node version and environment variables required for app",
   "main": "index.js",
   "scripts": {
-    "test": "mocha \"lib/**/*.spec.js\""
+    "test": "mocha \"src/**/*.spec.js\"",
+    "compile": "babel src/ --stage 0 --source-maps --debug --out-dir lib/",
+    "prepublish": "npm run compile"
   },
   "keywords": [
     "environment",
@@ -24,5 +26,11 @@
   },
   "bugs": {
     "url": "https://github.com/jaketrent/env-validator/issues"
+  },
+  "devDependencies": {
+    "babel": "^5.8.21",
+    "mocha": "^2.2.5",
+    "rf-release": "^0.4.0",
+    "should": "^7.0.4"
   }
 }
