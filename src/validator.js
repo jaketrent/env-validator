@@ -7,6 +7,8 @@ function parseVersion(fullVersion) {
 }
 
 export function validateNodeVersion(version) {
+  if (!version) return
+
   const expected = parseVersion(version)
   const actual = parseVersion(process.version)
 
@@ -21,13 +23,13 @@ export function validateNodeVersion(version) {
 }
 
 export function validateEnvVars(varNames) {
-  const missingVars = varNames.filter(varName => !process.env[varName])
+  const missingVars = (varNames || []).filter(varName => !process.env[varName])
 
   if (missingVars && missingVars.length > 0)
     throw new Error('Environment variables still required be set: ' + missingVars.join(', '))
 }
 
-export default function validateEnv(envVarNames, nodeVer) {
-  validateNodeVersion(nodeVer)
-  validateEnvVars(envVarNames)
+export default function validateEnv(env) {
+  validateNodeVersion(env.nodeVersion)
+  validateEnvVars(env.varNames)
 }

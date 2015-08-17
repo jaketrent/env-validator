@@ -1,9 +1,16 @@
 import validator from '../validator'
 
+function mkEnv(varNames, nodeVersion) {
+  return {
+    nodeVersion,
+    varNames
+  }
+}
+
 describe('validator', () => {
 
-  it('takes an array of env variables and a node version', () => {
-    validator.length.should.eql(2)
+  it('takes an env object', () => {
+    validator.length.should.eql(1)
   })
 
   describe('with a valid node version', () => {
@@ -47,7 +54,7 @@ describe('validator', () => {
           }
         })
 
-        validator(envVars, nodeVer)
+        validator(mkEnv(envVars, nodeVer))
       })
 
     })
@@ -63,7 +70,7 @@ describe('validator', () => {
         })
 
         try {
-          validator(envVars, nodeVer)
+          validator(mkEnv(envVars, nodeVer))
           'never'.should.eql('get here (or have to do this, if should.throw worked)')
         } catch (e) {
           e.message.should.match(/Environment variables still required/)
@@ -94,37 +101,37 @@ describe('validator', () => {
     })
 
     it('throws if less than required version', () => {
-      (() => { validator([], `v${actualMajor}.${actualMinor + 5}.${actualPatch}`) }).should.throw(/Node version/)
+      (() => { validator(mkEnv([], `v${actualMajor}.${actualMinor + 5}.${actualPatch}`)) }).should.throw(/Node version/)
     })
 
     it('is happy with an exactly-equal version', () => {
-      validator([], actualVer)
+      validator(mkEnv([], actualVer))
     })
 
     it('ignores invalid lower version after the if the previous version was higher', () => {
-      validator([], `v${actualMajor}.${actualMinor - 1}.${actualPatch + 1}`)
+      validator(mkEnv([], `v${actualMajor}.${actualMinor - 1}.${actualPatch + 1}`))
     })
 
     it('throws if a later version is lower and the previous version matches', () => {
-      (() => { validator([], `v${actualMajor}.${actualMinor}.${actualPatch + 1}`) }).should.throw(/Node version/)
+      (() => { validator(mkEnv([], `v${actualMajor}.${actualMinor}.${actualPatch + 1}`)) }).should.throw(/Node version/)
     })
 
     describe('variable versions', () => {
 
       it('doesnt check if in major version', () => {
-        validator([], 'vx.0.0')
+        validator(mkEnv([], 'vx.0.0'))
       })
 
       it('doesnt check if in minor version', () => {
-        validator([], `v${actualMajor}.x.${actualPatch}`)
+        validator(mkEnv([], `v${actualMajor}.x.${actualPatch}`))
       })
 
       it('doesnt check if in patch version', () => {
-        validator([], `v${actualMajor}.${actualMinor}.x`)
+        validator(mkEnv([], `v${actualMajor}.${actualMinor}.x`))
       })
 
       it('ignores invalid lower version after the first/highest variable', () => {
-        validator([], `v${actualMajor}.x.${actualPatch + 1}`)
+        validator(mkEnv([], `v${actualMajor}.x.${actualPatch + 1}`))
       })
 
     })
