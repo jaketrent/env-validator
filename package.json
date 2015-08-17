@@ -1,0 +1,28 @@
+{
+  "name": "env-validator",
+  "version": "0.0.1",
+  "description": "Validates node version and environment variables required for app",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha \"lib/**/*.spec.js\""
+  },
+  "keywords": [
+    "environment",
+    "validate",
+    "environment",
+    "variables",
+    "node",
+    "version",
+    "process.env"
+  ],
+  "author": "jaketrent",
+  "license": "MIT",
+  "homepage": "https://github.com/jaketrent/env-validator#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaketrent/env-validator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jaketrent/env-validator/issues"
+  }
+}
